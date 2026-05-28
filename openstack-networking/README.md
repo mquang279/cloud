@@ -2,7 +2,7 @@
 
 # 2. Advance
 <div align="center">
-  <img src="img/image.png" alt="alt text" width="550"/>
+  <img src="img/image.png" alt="alt text" width="650"/>
 </div>
 
 > Vì muốn thử triển khai với *Terraform* và *Ansible* nên em sẽ sử dụng 2 Tool này để thực hiện bài lab.
@@ -53,5 +53,5 @@ SSH vào VM1 và thực hiện live migrate VM3 từ VM1 sang VM2:
 - ChatGPT
 # 3. Expert
 <div align="center">
-  <img src="img/image-11.png" alt="alt text" width="550"/>
+  <img src="img/image-11.png" alt="alt text" width="650"/>
 </div>
