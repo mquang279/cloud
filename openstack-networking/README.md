@@ -2,10 +2,11 @@
 
 # 2. Advance
 <div align="center">
-  <img src="img/image-5.png" alt="alt text" width="550"/>
+  <img src="img/image.png" alt="alt text" width="550"/>
 </div>
 
 > Vì muốn thử triển khai với *Terraform* và *Ansible* nên em sẽ sử dụng 2 Tool này để thực hiện bài lab.
+> 
 > Source code: https://github.com/mquang279/cloud/tree/main/openstack-networking/advance
 
 Kiến trúc triển khai như hình trên, với cấu hình của từng VM là:
@@ -14,33 +15,31 @@ Kiến trúc triển khai như hình trên, với cấu hình của từng VM l�
 - **VM3:** 10GB Disk, 2GB Ram, Ubuntu Server 22.04
 
 Đầu tiên, sử dụng Terraform và libvirt để tạo VM1 & VM2:
-![alt text](img/image.png)
-Tạo SSH key pair trên máy bare-mental và copy public key vào 2 VM vừa tạo:
 ![alt text](img/image-2.png)
-Tiếp theo, chạy Ansible-playbook để tạo ra VM3 bên trong VM2 với cấu hình của VM3 là: 10GB Disk, 2GB Ram, Ubuntu Server 22.04
+Tạo SSH key pair trên máy bare-mental và copy public key vào 2 VM vừa tạo:
 ![alt text](img/image-3.png)
-Chạy Ansible-playbook để tạo default storage pool bên trong VM2
-
-Kiểm tra IP của VM3
+Tiếp theo, chạy Ansible-playbook để tạo ra VM3 bên trong VM2 với cấu hình của VM3 là: 10GB Disk, 2GB Ram, Ubuntu Server 22.04
 ![alt text](img/image-4.png)
+Chạy Ansible-playbook để tạo default storage pool bên trong VM2
+![alt text](img/image-5.png)
+Kiểm tra IP của VM3, danh sách VM trong VM1 và danh sách VM trong VM2
+![alt text](img/image-6.png)
+<div align="center">
+  <img src="img/image-7.png" alt="alt text" width="350"/>
+</div>
+
+<div align="center">
+  <img src="img/image-8.png" alt="alt text" width="350"/>
+</div>
+
 SSH vào VM1 và thực hiện live migrate VM3 từ VM1 sang VM2:
-```
-sudo virsh migrate vm3 \
-qemu+ssh://ubuntu@{VM2_IP}/system \
-    --live \
-    --copy-storage-all \
-    --persistent \
-    --verbose
-```
+<div align="center">
+  <img src="img/image-9.png" alt="alt text" width="600"/>
+</div>
 
-sudo mkdir -p /var/lib/libvirt/images
-
-sudo virsh pool-define-as default dir \
-  --target /var/lib/libvirt/images
-
-sudo virsh pool-build default
-sudo virsh pool-start default
-sudo virsh pool-autostart default
+<div align="center">
+  <img src="img/image-10.png" alt="alt text" width="350"/>
+</div>
 
 **Tham khảo:**
 - https://github.com/ArmanTaheriGhaleTaki/terraform-libvirt-sample
