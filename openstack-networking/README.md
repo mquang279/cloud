@@ -52,3 +52,6 @@ SSH vào VM1 và thực hiện live migrate VM3 từ VM1 sang VM2:
 - https://forum.ansible.com/t/creating-a-new-vm-with-libvirt-am-i-doing-this-right/43560
 - ChatGPT
 # 3. Expert
+<div align="center">
+  <img src="img/image-11.png" alt="alt text" width="550"/>
+</div>
