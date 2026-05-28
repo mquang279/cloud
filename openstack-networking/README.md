@@ -16,12 +16,16 @@ Kiến trúc triển khai như hình trên, với cấu hình của từng VM l�
 
 Đầu tiên, sử dụng Terraform và libvirt để tạo VM1 & VM2:
 ![alt text](img/image-2.png)
+
 Tạo SSH key pair trên máy bare-mental và copy public key vào 2 VM vừa tạo:
 ![alt text](img/image-3.png)
-Tiếp theo, chạy Ansible-playbook để tạo ra VM3 bên trong VM2 với cấu hình của VM3 là: 10GB Disk, 2GB Ram, Ubuntu Server 22.04
+
+Chạy Ansible-playbook để tạo ra VM3 bên trong VM2 với cấu hình của VM3 là: 10GB Disk, 2GB Ram, Ubuntu Server 22.04
 ![alt text](img/image-4.png)
+
 Chạy Ansible-playbook để tạo default storage pool bên trong VM2
 ![alt text](img/image-5.png)
+
 Kiểm tra IP của VM3, danh sách VM trong VM1 và danh sách VM trong VM2
 ![alt text](img/image-6.png)
 <div align="center">
@@ -45,5 +49,6 @@ SSH vào VM1 và thực hiện live migrate VM3 từ VM1 sang VM2:
 - https://github.com/ArmanTaheriGhaleTaki/terraform-libvirt-sample
 - https://oneuptime.com/blog/post/2026-03-04-manage-virtual-machine-storage-pools-volumes-rhel/view#creating-a-directory-based-storage-pool
 - https://phip1611.de/blog/live-migration-of-qemu-kvm-vms-with-libvirt-command-cheat-sheet-and-tips/
+- https://forum.ansible.com/t/creating-a-new-vm-with-libvirt-am-i-doing-this-right/43560
 - ChatGPT
 # 3. Expert
