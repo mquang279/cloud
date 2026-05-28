@@ -1,0 +1,33 @@
+#cloud-config
+hostname: vm3
+manage_etc_hosts: true
+
+network:
+  version: 2
+  ethernets:
+    id0:
+      dhcp4: true
+
+users:
+  - name: ubuntu
+    groups: sudo
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: false
+
+ssh_pwauth: true
+
+chpasswd:
+  list: |
+    ubuntu:ubuntu
+  expire: false
+
+packages:
+  - qemu-guest-agent
+  - bridge-utils
+  - cloud-image-utils
+  - cpu-checker
+
+runcmd:
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent

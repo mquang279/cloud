@@ -1,0 +1,37 @@
+- name: Create default storage pool
+  hosts: vm2
+  become: yes
+
+  vars:
+    image_dir: /var/lib/libvirt/images
+
+  tasks:
+    - name: Ensure libvirtd is running
+      service:
+        name: libvirtd
+        state: started
+        enabled: yes
+
+    - name: Ensure image directory exists
+      file:
+        path: "{{ image_dir }}"
+        state: directory
+        owner: libvirt-qemu
+        group: kvm
+        mode: "0755"
+
+    - name: Define default storage pool
+      command: virsh pool-define-as default dir --target {{ image_dir }}
+      register: define_pool
+      failed_when: define_pool.rc != 0 and 'already exists' not in define_pool.stderr
+      changed_when: define_pool.rc == 0
+
+    - name: Start default storage pool
+      command: virsh pool-start default
+      register: start_pool
+      failed_when: start_pool.rc != 0 and 'already active' not in start_pool.stderr
+      changed_when: start_pool.rc == 0
+
+    - name: Autostart default storage pool
+      command: virsh pool-autostart default
+      changed_when: false
