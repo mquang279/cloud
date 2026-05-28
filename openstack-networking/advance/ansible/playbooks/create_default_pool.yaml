@@ -1,17 +1,11 @@
 - name: Create default storage pool
   hosts: vm2
-  become: yes
+  become: true
 
   vars:
     image_dir: /var/lib/libvirt/images
 
   tasks:
-    - name: Ensure libvirtd is running
-      service:
-        name: libvirtd
-        state: started
-        enabled: yes
-
     - name: Ensure image directory exists
       file:
         path: "{{ image_dir }}"

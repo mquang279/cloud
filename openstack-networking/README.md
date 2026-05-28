@@ -1,9 +1,21 @@
 # 1. Basic
 
 # 2. Advance
-Đầu tiên, sử dụng Terraform và libvirt để tạo 2 VM (VM1 & VM2) với vai trò là 2 host có cấu hình: 20GB Disk, 4GB Ram, Ubuntu Server 22.04
+<div align="center">
+  <img src="img/image-5.png" alt="alt text" width="550"/>
+</div>
+
+> Vì muốn thử triển khai với *Terraform* và *Ansible* nên em sẽ sử dụng 2 Tool này để thực hiện bài lab.
+> Source code: https://github.com/mquang279/cloud/tree/main/openstack-networking/advance
+
+Kiến trúc triển khai như hình trên, với cấu hình của từng VM là:
+- **VM1:** 20GB Disk, 4GB Ram, Ubuntu Server 22.04
+- **VM2:** 20GB Disk, 4GB Ram, Ubuntu Server 22.04
+- **VM3:** 10GB Disk, 2GB Ram, Ubuntu Server 22.04
+
+Đầu tiên, sử dụng Terraform và libvirt để tạo VM1 & VM2:
 ![alt text](img/image.png)
-Tạo SSH key-gen và copy vào 2 VM vừa tạo
+Tạo SSH key pair trên máy bare-mental và copy public key vào 2 VM vừa tạo:
 ![alt text](img/image-2.png)
 Tiếp theo, chạy Ansible-playbook để tạo ra VM3 bên trong VM2 với cấu hình của VM3 là: 10GB Disk, 2GB Ram, Ubuntu Server 22.04
 ![alt text](img/image-3.png)

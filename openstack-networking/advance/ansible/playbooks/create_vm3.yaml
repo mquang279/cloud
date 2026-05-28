@@ -1,9 +1,11 @@
 - name: Create VM3 in VM1
   hosts: vm1
-  become: yes
+  become: true
   vars:
     image_dir: "/var/lib/libvirt/images"
     base_image_name: "ubuntu-base.qcow2"
+    base_image_dir: "../img/ubuntu.img"
+    cloud_init_dir: "../template/cloud_init.cfg.j2"
     vm3_disk_name: "vm3.qcow2"
     vm3_disk_size: "10G"
     vm3_cloud_init_iso: "vm3_seed.iso"
@@ -19,7 +21,7 @@
 
     - name: Copy base image to libvirt directory
       copy:
-        src: ./img/ubuntu.img
+        src: "{{ base_image_dir }}"
         dest: "{{ image_dir }}/{{ base_image_name }}"
         owner: libvirt-qemu
         group: kvm
@@ -38,7 +40,7 @@
 
     - name: Render cloud-init user-data for VM3
       template:
-        src: ./cloud_init.cfg.j2
+        src: "{{ cloud_init_dir }}"
         dest: "/tmp/user-data"
         mode: "0644"
 
