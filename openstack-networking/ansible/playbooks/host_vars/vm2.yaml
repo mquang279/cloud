@@ -1,0 +1,8 @@
+nested_vms:
+  - name: vm4
+    disk_name: vm4.qcow2
+    disk_size: 10G
+    cloud_init_iso: vm4_seed.iso
+    memory: 2048
+    vcpus: 2
+    network: default

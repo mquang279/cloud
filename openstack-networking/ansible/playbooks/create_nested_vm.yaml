@@ -1,0 +1,94 @@
+- name: Create nested VM
+  hosts: layer1_vm
+  become: true
+  vars:
+    image_dir: "/var/lib/libvirt/images"
+    base_image_name: "ubuntu-base.qcow2"
+    base_image_src: "../img/ubuntu.img"
+    cloud_init_template: "../template/cloud_init.cfg.j2"
+    os_variant: "ubuntu24.04"
+  tasks:
+    - name: Ensure image directory exists
+      file:
+        path: "{{ image_dir }}"
+        state: directory
+        owner: libvirt-qemu
+        group: kvm
+        mode: "0755"
+
+    - name: Copy base image to libvirt directory
+      copy:
+        src: "{{ base_image_src }}"
+        dest: "{{ image_dir }}/{{ base_image_name }}"
+        owner: libvirt-qemu
+        group: kvm
+        mode: "0660"
+
+    - name: Create qcow2 overlay disk
+      command: >
+        qemu-img create
+        -f qcow2
+        -F qcow2
+        -b {{ image_dir }}/{{ base_image_name }}
+        {{ image_dir }}/{{ item.disk_name }}
+        {{ item.disk_size }}
+      args:
+        creates: "{{ image_dir }}/{{ item.disk_name }}"
+      loop: "{{ nested_vms }}"
+
+    - name: Render cloud-init user-data
+      template:
+        src: "{{ cloud_init_template }}"
+        dest: "/tmp/{{ item.name }}-user-data"
+        mode: "0644"
+      loop: "{{ nested_vms }}"
+
+    - name: Render cloud-init meta-data
+      copy:
+        dest: "/tmp/{{ item.name }}-meta-data"
+        mode: "0644"
+        content: |
+          instance-id: {{ item.name }}
+          local-hostname: {{ item.name }}
+      loop: "{{ nested_vms }}"
+
+    - name: Create cloud-init ISO
+      command: >
+        cloud-localds
+        {{ image_dir }}/{{ item.cloud_init_iso }}
+        /tmp/{{ item.name }}-user-data
+        /tmp/{{ item.name }}-meta-data
+      args:
+        creates: "{{ image_dir }}/{{ item.cloud_init_iso }}"
+      loop: "{{ nested_vms }}"
+
+    - name: Set ownership for cloud-init ISO
+      file:
+        path: "{{ image_dir }}/{{ item.cloud_init_iso }}"
+        owner: libvirt-qemu
+        group: kvm
+        mode: "0644"
+      loop: "{{ nested_vms }}"
+
+    - name: Check existing VMs
+      command: virsh list --all --name
+      register: existing_vms
+      changed_when: false
+
+    - name: Create VM instance
+      command: >
+        virt-install
+        --name {{ item.name }}
+        --memory {{ item.memory | default(2048) }}
+        --vcpus {{ item.vcpus | default(2) }}
+        --cpu host
+        --disk path={{ image_dir }}/{{ item.disk_name }},format=qcow2,bus=virtio
+        --disk path={{ image_dir }}/{{ item.cloud_init_iso }},device=cdrom
+        --os-variant {{ os_variant }}
+        --import
+        --network network={{ item.network | default('default') }},model=virtio
+        --graphics none
+        --console pty,target_type=serial
+        --noautoconsole
+      loop: "{{ nested_vms }}"
+      when: item.name not in existing_vms.stdout_lines

@@ -1,0 +1,8 @@
+nested_vms:
+  - name: vm3
+    disk_name: vm3.qcow2
+    disk_size: 10G
+    cloud_init_iso: vm3_seed.iso
+    memory: 2048
+    vcpus: 2
+    network: default

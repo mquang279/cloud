@@ -1,5 +1,5 @@
 - name: Create default storage pool
-  hosts: vm2
+  hosts: layer1_vm
   become: true
 
   vars:
