@@ -17,11 +17,11 @@ Kiến trúc triển khai như hình trên, với cấu hình của từng VM l�
 - Tạo overlay disk cho VM dựa trên base image
 - Render file cloud init cho từng VM để cấu hình user, cài đặt package cần thiết.
 - Tạo cloud init ISO cho từng VM
-- Tạo VM với cấu hình như phía trên, mở CPU passthrough.
+- Tạo VM với cấu hình như phía trên, mở CPU host-passthrough để hỗ trợ nested virtualization.
 
 ![alt text](img/image-2.png)
 
-Tạo SSH key pair trên máy bare-mental và copy public key vào 2 VM vừa tạo:
+Tạo SSH key pair trên máy bare-metal và copy public key vào 2 VM vừa tạo:
 ![alt text](img/image-3.png)
 
 Chạy Ansible-playbook để tạo ra VM3 bên trong VM1 bao gồm các bước như hình sau:
@@ -68,7 +68,7 @@ Dựa vào hạ tầng đã tạo sẵn ở lab **Advance**, em sẽ tạo thêm
 ![alt text](img/image-12.png)
 
 
-Cloud-init config khi tạo VM1, VM2 bằng Terraform đã cài đặt sẵn package Open vSwitch. Tạo OVS bridge và VXLAN Tunnel gán với bridge trên VM1, VM2.
+Cloud-init config khi tạo VM1, VM2 bằng Terraform đã cài đặt sẵn package Open vSwitch. Tạo OVS bridge và thêm VXLAN Tunnel port vào bridge trên VM1, VM2.
 <div align="center">
   <img src="img/image-13.png" alt="alt text" width="400"/>
 </div>
@@ -80,15 +80,15 @@ Cloud-init config khi tạo VM1, VM2 bằng Terraform đã cài đặt sẵn pac
 ![alt text](img/image-15.png)
 ![alt text](img/image-16.png)
 
-Attach VM3, VM4 vào OVS Bridge đã tạo trên VM1, VM2
+Kết nối network interface VM3, VM4 vào OVS Bridge đã tạo trên VM1, VM2
 ![alt text](img/image-17.png)
 ![alt text](img/image-18.png)
 
-Gán IP cho VM3 và VM4 cùng subnet sử dụng rải mạng `10.0.0.0/24`
+Gán IP cho VM3 và VM4 cùng subnet sử dụng dải mạng `10.0.0.0/24`
 ![alt text](img/image-19.png)
 ![alt text](img/image-20.png)
 
-Ping qua lại giữa VM3 và VM4
+Ping qua lại giữa VM3 và VM4 để kiểm tra kết nối VXLAN Tunnel
 
 ![alt text](img/image-21.png)
 ![alt text](img/image-22.png)
