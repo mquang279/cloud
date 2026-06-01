@@ -1,4 +1,6 @@
- # 1. Advance
+**Bùi Minh Quang**
+**Trường Đại học Công nghệ - Đại học Quốc gia Hà Nội**
+# 1. Advance
 <div align="center">
   <img src="img/image.png" alt="alt text" width="650"/>
 </div>
@@ -45,6 +47,7 @@ SSH vào VM1 và thực hiện live migrate VM3 từ VM1 sang VM2:
   <img src="img/image-9.png" alt="alt text" width="600"/>
 </div>
 
+
 <div align="center">
   <img src="img/image-10.png" alt="alt text" width="350"/>
 </div>
@@ -78,19 +81,23 @@ Cloud-init config khi tạo VM1, VM2 bằng Terraform đã cài đặt sẵn pac
 </div>
 
 ![alt text](img/image-15.png)
+
 ![alt text](img/image-16.png)
 
 Kết nối network interface VM3, VM4 vào OVS Bridge đã tạo trên VM1, VM2
 ![alt text](img/image-17.png)
+
 ![alt text](img/image-18.png)
 
 Gán IP cho VM3 và VM4 cùng subnet sử dụng dải mạng `10.0.0.0/24`
 ![alt text](img/image-19.png)
+
 ![alt text](img/image-20.png)
 
 Ping qua lại giữa VM3 và VM4 để kiểm tra kết nối VXLAN Tunnel
 
 ![alt text](img/image-21.png)
+
 ![alt text](img/image-22.png)
 
 **Tham khảo:**
