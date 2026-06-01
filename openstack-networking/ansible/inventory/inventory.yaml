@@ -3,9 +3,9 @@ all:
     layer1_vm:
       hosts:
         vm1:
-          ansible_host: 192.168.122.31
+          ansible_host: 192.168.122.214
         vm2:
-          ansible_host: 192.168.122.138
+          ansible_host: 192.168.122.56
   vars:
     ansible_user: ubuntu
     ansible_ssh_private_key_file: ~/.ssh/id_ed25519
