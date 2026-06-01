@@ -1,4 +1,4 @@
- # 1. Advance![alt text](image.png)
+ # 1. Advance
 <div align="center">
   <img src="img/image.png" alt="alt text" width="650"/>
 </div>
