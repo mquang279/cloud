@@ -89,6 +89,7 @@ Gán IP cho VM3 và VM4 cùng subnet sử dụng rải mạng `10.0.0.0/24`
 ![alt text](img/image-20.png)
 
 Ping qua lại giữa VM3 và VM4
+
 ![alt text](img/image-21.png)
 ![alt text](img/image-22.png)
 
