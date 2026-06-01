@@ -4,6 +4,7 @@
 # .tfstate files (local state should not be in Git)
 *.tfstate
 *.tfstate.*
+.obsidian
 
 # Crash log files
 crash.log
